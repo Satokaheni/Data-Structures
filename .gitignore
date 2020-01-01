@@ -1,3 +1,6 @@
 grades/*
 Project/*
 Homeworks/*
+Exams/*
+.ipynb_checkpoints/*
+.DS_Store/*
