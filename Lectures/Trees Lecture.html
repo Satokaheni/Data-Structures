@@ -13285,44 +13285,46 @@ After an insertion, only nodes that are on the path from the insertion point to 
 <p>In the cases where the insertion occurs on the outside of the subtree (1 and 4) it is fixed by a <strong>single</strong> rotation. In the case the insertion occurs on the inside of the subtree (2 and 3) it is fixed by a <strong>double</strong> rotation.</p>
 <h3 id="Single-Rotation">Single Rotation<a class="anchor-link" href="#Single-Rotation">&#182;</a></h3><center>
     <font size="5">Case 1 (left-left)</font>
-<img src="./files/Trees/AVL-Case1.png" width="450"/>
+<img src="Trees/AVL-Case1.png" width="450"/>
 </center>
 <br><br>
 <center>
     <font size="5">Case 4 (right-right)</font>
-<img src="./files/Trees/AVL-Case4.png" width="450"/>
+<img src="Trees/AVL-Case4.png" width="450"/>
 </center><h3 id="Double-Rotation">Double Rotation<a class="anchor-link" href="#Double-Rotation">&#182;</a></h3><p><br><br></p>
 <center><font size="4">As we can see single rotation does not work on inner insertions as the tree remains imbalanced</font></center><br>
-<img src="./files/Trees/Single-Double.png" width="500"/>
+
+<img src="Trees/Single-Double.png" width="500"/>
 
 <center>
     <font size="5">Case 2 (left-right)</font>
-<img src="./files/Trees/AVL-Case2.png" width="500"/>
+<img src="Trees/AVL-Case2.png" width="500"/>
 </center>
 <br><br>
 <center>
     <font size="5">Case 3 (right-left)</font>
-<img src="./files/Trees/AVL-Case3.png" width="500"/>
+<img src="Trees/AVL-Case3.png" width="500"/>
 </center><h3 id="Example">Example<a class="anchor-link" href="#Example">&#182;</a></h3><p>So lets look at an example of using rotations. Starting with this as our original tree. In this example we'll be inserting 12 through 16 in reverse order. <br>
-<img src="./files/Trees/AVL-Example-1.png" width="300"/>
+<img src="Trees/AVL-Example-1.png" width="300"/>
 <br><br></p>
 <center> Now let's insert 16 which does not violate the conditions. Next we'll insert 15 which causes a violation at node 7. This is a case 3 which is solved by a right-left double rotation. Where $k_1$ is node 7, $k_2$ is node 15, and $k_3$ is node 16</center>
-<img src="./files/Trees/AVL-Example-15.png" width="500"/>   
+<img src="Trees/AVL-Example-15.png" width="500"/>   
 <br><br>
 <center> Now let's insert 14 which also requires a double rotation. This is also a case 3, right-left, double rotation. Where $k_1$ is node 6, $k_2$ is node 7, and $k_3$ is node 15</center>
-<img src="./files/Trees/AVL-Example-14.png" width="500"/>
+<img src="Trees/AVL-Example-14.png" width="500"/>
 <br><br>
 <center> Now let's insert 13 which causes an imbalance at the root. This is a case 4, right-right, single rotation. Where $k_1$ is node 4 and $k_2$ is node 7.</center>
-<img src="./files/Trees/AVL-Example-13.png" width="500"/>
+<img src="Trees/AVL-Example-13.png" width="500"/>
 <br><br>
 <center> Now let's insert 12 which causes an imbalance at node 14. This is a case 1, left-left, single rotation. Where $k_1$ is node 14 and $k_2$ is node 13</center>
-<img src="./files/Trees/AVL-Example-12.png" width="500"/>
+<img src="Trees/AVL-Example-12.png" width="500"/>
 
-For removal it has one of two cases. If the node only has one child we simply replace the node with it's child. However if the node has two children we find the minimum value in the right subtree. We replace the current nodes value with the minimum value of the right subtree then remove the minimum value node. After performing the removal we must rebalance the tree from the bottom up. 
+For removal it has one of two cases. If the node only has one child we simply replace the node with it's child. However if the node has two children we find the minimum value in the right subtree. We replace the current nodes value with the minimum value of the right subtree then remove the minimum value node. After performing the removal we must rebalance the tree from the bottom up. <br>
 
 
 ### Code Example
-The question now is how would we write the code for this new balancing condition when inserting. The code will be similar to the original bst code but now balancing the tree at the end of the insertion. Also the same applies to removing a node. After removing a node we have to rebalance the tree. 
+
+The question now is how would we write the code for this new balancing condition when inserting. The code will be similar to the original bst code but now balancing the tree at the end of the insertion. Also the same applies to removing a node. After removing a node we have to rebalance the tree. <br>
 
 ```python
 def __insert(self, v, node):
@@ -13352,7 +13354,9 @@ def __remove(self, v, node):
     return self.__balance(node)
 ```
 
+<br>
 The balancing would take into account the four rotation cases.
+<br>
 
 ```python
 def __balance(self, node):
@@ -13380,8 +13384,9 @@ def __balance(self, node):
     return node
 ```
 
+<br>
 Now how would we perform these rotations. We'll look at two examples: Case 1 and Case 2
-
+<br>
 
 ```python
 def rotateLeftLeft(self, k2):
@@ -13397,10 +13402,11 @@ def rotateLeftRight(self, k3):
     return self.rotateLeftLeft(k3)
 
 ```
-
+<br>
 The other two rotations will be left as good exercises for the student. Also a way to improve this algorithm would be to have each node maintain it's height so the height of each node does not have to be calculated on every insertion it is already know beforehand. *This improvement is also left as an exercise to the student*
 
 ## Red-Black Trees
+
 A popular alternative to AVL trees are **Red-Black** Trees. Again as with AVL trees operations take O(logN) time. Also as we will see that insertion into a red-black tree can be done easier without a recursive implementation as we will see later. A red-black tree has the following properties:
 1. Every node is colored either red or black
 2. The root is black.
@@ -13410,15 +13416,16 @@ A popular alternative to AVL trees are **Red-Black** Trees. Again as with AVL tr
 A consequence of the coloring rules is that the height of a red-black tree is at most 2log(N+1). This however isn't that big of a consequence since memory in our case is plentiful. The difficulty, as usual, is inserting a new item into the tree. The new item is placed as a new leaf in the tree. If we color this new node black it will violate condition four as it will affect the number of black nodes in a path. Therefore the leaf must be colored red. If the parent is black the insertion is done, however if the parent is red we violate condition 3. Hence we must adjust the tree so that condition 3 is enforced. We accomplish this through color changes and tree rotations.
 
 ### Bottom-Up Insertion
-<img src="./files/Trees/RB-Tree-Example.png" width="500"/>
+<br>
+<img src="Trees/RB-Tree-Example.png" width="500"/>
 <center>Single Cirle = Black. Double Circle = Red</center><br>
 There are several cases to consider if the parent is red. <br>
 First, suppose that the sibling of the parent is black (we adopt that null nodes are black is case the parent has no sibling). Let X be the newly added leaf, P be its parent, S be the sibling of the parent and G be the grandparent. Only X and P are red in this case; G is black, because otherwise there would be two consecutive red nodes *prior* to the insertion, in violating the rules of a red-black tree. X, P, and G can form either a **zig-zag** chain or a **zig-zig** chain. This first case corresponds to a single rotation between P and G. <br><br>
 <center>The first case: zig-zig corresponds to a single rotation between P and G, inserting a 3 into the tree. </center>
-<img src="./files/Trees/Zig-Rotation.png" width="500"/>
+<img src="Trees/Zig-Rotation.png" width="500"/>
 <br><br>
 <center>The second case: zig-zag rotation corresponds to a double rotation, first between X and P and then between X and G, insert 8 into the tree. </center>
-<img src="./files/Trees/Zig-Zag-Rotation.png" width="500"/>
+<img src="Trees/Zig-Zag-Rotation.png" width="500"/>
 <br><br>
 In both cases, the subtree's new root is colored black. This allows the number of black nodes on the paths into the subtrees maintaining rule 4. <br>
 But what happens if S, the sibling, is red instead of black, as is the case if we add 79 to the tree. In that case there is one black node on the path from the subtree's root to C. After the rotation, there must still be only one black node. In both cases, there are three new nodes (the new root, G and S) on the path to C. Since only one may be black, and since we cannot have two consecutive red nodes, it follows that we'd have to color both S and the subtree's new root red and G black. Well now what happens if the parent of the new root is also red? IN this case, we would percolate this procedure of rotations up toward the root recrusively (similar to how we did in AVL trees). 
@@ -13426,7 +13433,7 @@ But what happens if S, the sibling, is red instead of black, as is the case if w
 
 ### Top-Down Red-Black Trees
 The procedure the implement the percolation is conceptually easy. On the way down, when we see a node X that has two red children, we made X red and he two children black. 
-<img src="./files/Trees/Color-Flip.png" width="500"/>
+<img src="Trees/Color-Flip.png" width="500"/>
 <br><br>
 This will induce a violation only if X's parent is also red. But if this happens we can just apply the appropriate rotations. For example if we wanted to insert 45 into the tree. On the way down the tree we would notice node 50 has two red children. Thus, we perform a color flip making 50 red and 40 and 55 black. Now 50 and 60 are both red. We perform a single rotation between 60 and 70, making 60 the black root of the subtree, and 50 and 70 both red. We then continuing with this action is any other parents have two red children. When we get to a leaf you can insert 45 as a red node and since the parent is black , we are done. 
 
@@ -13452,16 +13459,16 @@ For the following cases terminology is as follows: u is double black, p is the p
 
 #### Subcase 1
 The sibling is red. We perform a rotation on the parent and sibling as so then treat it as a black sibling case
-<img src="./files/Trees/rb-tree-deletion-1.png" width="400"/>
+<img src="Trees/rb-tree-deletion-1.png" width="400"/>
 
 #### Subcase 2
 This case is broken down into two subcases. When the parent is red and when the parent is black. If the parent is red we simply swap the colors of the sibling and the parent. However if the parent is black we recolor the parent as double black then percolate up to remove the double black. <br>
 After these subcases we can simply remove the node with a null value as it removes it's double black color.
-<img src="./files/Trees/rb-tree-deletion-2.png" width="400"/>
+<img src="Trees/rb-tree-deletion-2.png" width="400"/>
 
 #### Subcase 3
 If the sibling is black and one of its children is red, rotate the parent, sibling and nephew then recolor the newphew black. After this we can also remove the node with the null value as it removes it's double black color.
-<img src="./files/Trees/rb-tree-deletion-3.png" width="400"/>
+<img src="Trees/rb-tree-deletion-3.png" width="400"/>
 
 
 **Case 4** we replace the value in the deleted node with the minimum value of the right subtree then delete the minimum value node. However when deleting the minimum value node we must follow **cases 1-3** on how to remove it. 
@@ -13472,19 +13479,19 @@ A **splay** tree gurantees that any M consecutive tree operations starting from 
 
 ### Splaying
 The original idea is we could perform a series of single rotations on the node being accessed. This however does not work because while moving that node towards the root it will push others just as far down. For example:
-<img src="./files/Trees/single-rotation-1-splay.png" width="500"/>
-<img src="./files/Trees/single-rotation-2-splay.png" width="400"/>
+<img src="Trees/single-rotation-1-splay.png" width="500"/>
+<img src="Trees/single-rotation-2-splay.png" width="400"/>
 <br><br>
 As we can see by pushing $k_1$ up to the root we push $k_3$ almost as far down as $k_1$ was originally. So we come up with idea of **splaying**. The splaying strategy is similar to single rotation, except that we are a little more selective about how rotations are performed. We still rotate bottom up along the access path. Let X be a (nonroot) node on the access path at which we are rotating. If the parent of X is the root of the tree, we merely rotate X and the root. Otherwise, X has both a parent (P) and a grandparent (G) and there are two cases. These two cases are exactly the same as in the red-black trees discussed earlier. 
-<img src="./files/Trees/zig-zag-splay.png" width="500"/>
+<img src="Trees/zig-zag-splay.png" width="500"/>
 <br><br>
 The first case **zig-zag**: X is a right child, P is a left child.
-<img src="./files/Trees/zig-zig-splay.png" width="500"/>
+<img src="Trees/zig-zig-splay.png" width="500"/>
 <br><br>
 The other case **zig-zig**: X and P are both left children.
 <br>
 Let's look at an example where we splay at node 1:
-<img src="./files/Trees/splay-example.png" width="500"/>
+<img src="Trees/splay-example.png" width="500"/>
 <br><br>
 First we perform a zig-zig rotation as 1 and 2 are both left children. Next we perform another zig-zig rotation as 1 and 4 are both left children. The last rotation again is a zig-zig as 1 and 6 are both left children.
 <br>
@@ -13499,7 +13506,7 @@ A B-tree or order M is an M-ary tree with the following properties:
 5. All leaves are at the same depth and have between L/2 and L data items, for some L. 
 
 Here is an example of a B-tree of order 5.
-<img src="./files/Trees/b-tree-example-o5.png" width="600"/>
+<img src="Trees/b-tree-example-o5.png" width="600"/>
 <br><br>
 Notice all the nonleaf nodes have between three and 5 children. Here we have L=5, since L is 5, each leaf has between three and five data items. Requiring nodes to be half full gurantees that the B-tree does not degenerate into a simple binary tree. <br>
 Each node represents a disk block, so we choose M and L on the basis of the size of the items that are being stored. As an example, suppose one block holds 8,192 bytes. Let's suppose that each key uses 32 bytes and a data record is 256 bytes. In a B-tree of order M, we would have M-1 keys, for a total of $32*M$ - 32 bytes, plus M branches. Since each branch is essentially a number of another disk block, we can assume that a branch is 4 bytes. Thus the branches use $4*M$ bytes. The total memory requirement for a nonleaf node is thus $36*M$ -32. The largest value of M for which this is no more than 8,192 is 228. Thus we could choose M=228. Since each data record is 256 bytes, we would be able to fit 32 records into one block ($8192/256=32$). Thus we would chose L=32. <br>
@@ -13512,13 +13519,13 @@ In Case 2 we have to do some extra work since the leaf node is already full. To 
 1. split the leaf into two leaves. 
 2. Take the minimum value of the second of the two leaves and repeat the algorithm on the parent. 
 
-<img src="./files/Trees/B-Case1.png" width="600"/>
+<img src="Trees/B-Case1.png" width="600"/>
 <center>An example of Case 1. Inserting 57 into the tree.</center>
 <br><br>
-<img src="./files/Trees/B-Case2-1.png" width="600"/>
+<img src="Trees/B-Case2-1.png" width="600"/>
 <center>An example of Case 2. Inserting 57 into the tree which causes the leaf to split into two. Then promoting the minumum of the second leaf (57) into the parent. Since the parent has room we can simply add it.</center>
 <br><br>
-<img src="./files/Trees/B-Case2-2.png" width="600"/>
+<img src="Trees/B-Case2-2.png" width="600"/>
 <center>An example of Case 2. Inserting 40 into the tree which causes the leaf to split into two. Then promoting the minumum of the second leaf (38) into the parent. Since the parent is full we must repeat the process. Here we split the parent node into two and take the minumum of the second (26) and promote it to the root. Since the root has room we simply add it. Now in this case since we are not splitting a leaf we promote the key itself so it only appears in only place.</center>
 <br>
 With removal we can adopt we also have two cases
@@ -13530,9 +13537,9 @@ In case 2 we will adopt what is called a neighboring strategy described as follo
 2. Else If the sibling nodes are at the minimum allowed values for a leaf. Merge the node with a sibling. This will cause a loss of key in the parent. If this causes the parent to have less than the required number of values repeat the algorithm for the parent node. 
 3. If during this process causes the root to be too small then the merged node becomes the new root.
 <br><br>
-<img src="./files/Trees/B-Case2-2.png" width="600"/>
+<img src="Trees/B-Case2-2.png" width="600"/>
 <br><br>
-<img src="./files/Trees/B-Tree-removal.png" width="600"/>
+<img src="Trees/B-Tree-removal.png" width="600"/>
 <center>An example of Case 2. Removing 99 from the tree causes the leaf node to become too small. The neighboring sibling only has three values so we cannot redistribute as this will cause the sibling to be too small. We merge the two nodes together. This causes the key 97 to be removed from the parent. So now we must rerun the algorithm on the parent node. The sibling of the parent has more than half the required size so we can redistribute the keys over the two nodes. In this example we redistribute one of the leaf nodes to the parent that is too small. This makes the node half full so it satifies the invariant of the B-Tree. We then recalculat the key values based on the new leaves.</center><h2 id="What-Trees-are-Used-For">What Trees are Used For<a class="anchor-link" href="#What-Trees-are-Used-For">&#182;</a></h2><p>Good uses for trees are when problems require a parent child relationship to be maintained. Trees are extremely popular in the fields of natural language processing and even more popular in game theory.</p>
 <p>In the realm of natural language processing there was a data structure called a <strong>Trie</strong> which you could use to recommend words you are trying to spell as you're typing, excluding words that contain punctuation. A trie is a 26-ary tree where each node has 26 children, one for each letter of the alphabet. Each node would also maintain a boolean value specifying that the path from the root to this node was a valid word. This however got replaced by marchov chains and then by deep learning models. They are also extremely helpful in displaying the syntax of a sentence structure. The Standford NLP part-of-speech tagger uses trees to display the relationship between words.</p>
 <p>Trees are extremely popular in game theory as well. They are the basis of the minimax algorithm and monte carlo search trees. Without trees alphaGo and the original IBM watson that defeated a master chess player would never even exist.</p>
